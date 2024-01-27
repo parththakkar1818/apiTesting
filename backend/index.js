@@ -58,6 +58,7 @@ cron.schedule("*/10 * * * * *", async () => {
   }
   else{
     console.log("oh yes email sent from cron jov shedule");
+  }
 });
 
 
