@@ -47,9 +47,9 @@ cron.schedule("*/10 * * * * *", async () => {
   console.log("Running a task every day at 12:00 PM and i from vercel");
 
   // Define your email content
-  const to = "thakkarjinal123@gmail.com";
-  const subject = "Daily Email Notification";
-  const message = "This is your daily notification message."+cnt;
+  const to = "parththakkar1208@gmail.com";
+  const subject = "Daily Email Notification from scheduler ";
+  const message = "This is your daily notification message. from scheduler"+cnt;
 
   const isEmailSent = await sendEmail(to, subject, message);
 
@@ -79,8 +79,8 @@ app.post("/",async (req,res)=>{
     const mailOptions = {
       from: "thakkarparth2512@gmail.com", // Sender address
       to, // Recipient address (received from the frontend)
-      subject: "Test Email", // Subject line
-      text: "This is a test email sent from your React app using Nodemailer.", // Email body
+      subject: "Test Email from button trigger ", // Subject line
+      text: "This is a test email sent from your React app using Nodemailer.  from button trigger ", // Email body
     };
 
     // Send the email
