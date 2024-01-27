@@ -56,6 +56,8 @@ cron.schedule("*/10 * * * * *", async () => {
   if (!isEmailSent) {
     console.error("Error sending daily email");
   }
+  else{
+    console.log("oh yes email sent from cron jov shedule");
 });
 
 
