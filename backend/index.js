@@ -13,19 +13,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-let cnt = 0;
-
+var cnt=0;
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "thakkarparth2512@gmail.com",
-    pass: "rzxt cesp zenk uswu",
+    user: "thakkarparth2512@gmail.com", // Your email address
+    pass: "rzxt cesp zenk uswu", // Your email password or an app-specific password
   },
 });
 
+// Function to send emails
 const sendEmail = async (to, subject, text) => {
   const mailOptions = {
-    from: "thakkarparth2512@gmail.com",
+    from: "thakkarparth2512@gmail.com", // Sender address
     to,
     subject,
     text,
@@ -42,122 +42,55 @@ const sendEmail = async (to, subject, text) => {
   }
 };
 
-cron.schedule("*/10 * * * * *", async () => {
-  console.log("Running a task every 10 seconds from server-side cron job");
+// Cron job to send emails every day at a specific time (e.g., 12:00 PM)
+cron.schedule("*/40 * * * * *", async () => {
+  console.log("Running a task every day at 12:00 PM");
 
-  const to = "parththakkar1208@gmail.com";
-  const subject = "Daily Email Notification from scheduler";
-  const message = "This is your daily notification message from scheduler." + cnt;
+  // Define your email content
+  const to = "thakkarjinal123@gmail.com";
+  const subject = "Daily Email Notification";
+  const message = "This is your daily notification message."+cnt;
 
   const isEmailSent = await sendEmail(to, subject, message);
 
   if (!isEmailSent) {
     console.error("Error sending daily email");
-  } else {
-    console.log("Email sent from server-side cron job");
-  }
-});
-
-app.post("/send-email", async (req, res) => {
-  const { to } = req.body;
-
-  const isEmailSent = await sendEmail(
-    to,
-    "Test Email from button trigger",
-    "This is a test email sent from your React app using Nodemailer from button trigger."
-  );
-
-  if (isEmailSent) {
-    console.log("Email sent from button trigger");
-    res.status(200).send("Email sent successfully");
-  } else {
-    console.error("Error sending email from button trigger");
-    res.status(500).send("Error sending email");
   }
 });
 
 
-// var cnt=0;
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "thakkarparth2512@gmail.com", // Your email address
-//     pass: "rzxt cesp zenk uswu", // Your email password or an app-specific password
-//   },
-// });
+app.post("/",async (req,res)=>{
+  cron.schedule("*/10 * * * * *", async () => {
+    const { to } = req.body;
 
-// // Function to send emails
-// const sendEmail = async (to, subject, text) => {
-//   const mailOptions = {
-//     from: "thakkarparth2512@gmail.com", // Sender address
-//     to,
-//     subject,
-//     text,
-//   };
+    // Create a Nodemailer transporter using your email service provider details
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "thakkarparth2512@gmail.com", // Your email address
+        pass: "rzxt cesp zenk uswu", // Your email password or an app-specific password
+      },
+    });
 
-//   try {
-//     const info = await transporter.sendMail(mailOptions);
-//     console.log("Email sent: " + info.response);
-//     cnt++;
-//     return true;
-//   } catch (error) {
-//     console.error("Error sending email:", error);
-//     return false;
-//   }
-// };
+    // Email content
+    const mailOptions = {
+      from: "thakkarparth2512@gmail.com", // Sender address
+      to, // Recipient address (received from the frontend)
+      subject: "Test Email", // Subject line
+      text: "This is a test email sent from your React app using Nodemailer. from button", // Email body
+    };
 
-// // Cron job to send emails every day at a specific time (e.g., 12:00 PM)
-// cron.schedule("*/10 * * * * *", async () => {
-//   console.log("Running a task every day at 12:00 PM and i from vercel");
-
-//   // Define your email content
-//   const to = "parththakkar1208@gmail.com";
-//   const subject = "Daily Email Notification from scheduler ";
-//   const message = "This is your daily notification message. from scheduler"+cnt;
-
-//   const isEmailSent = await sendEmail(to, subject, message);
-
-//   if (!isEmailSent) {
-//     console.error("Error sending daily email");
-//   }
-//   else{
-//     console.log("oh yes email sent from cron jov shedule");
-//   }
-// });
-
-
-// app.post("/",async (req,res)=>{
-//   cron.schedule("*/10 * * * * *", async () => {
-//     const { to } = req.body;
-
-//     // Create a Nodemailer transporter using your email service provider details
-//     const transporter = nodemailer.createTransport({
-//       service: "gmail",
-//       auth: {
-//         user: "thakkarparth2512@gmail.com", // Your email address
-//         pass: "rzxt cesp zenk uswu", // Your email password or an app-specific password
-//       },
-//     });
-
-//     // Email content
-//     const mailOptions = {
-//       from: "thakkarparth2512@gmail.com", // Sender address
-//       to, // Recipient address (received from the frontend)
-//       subject: "Test Email from button trigger ", // Subject line
-//       text: "This is a test email sent from your React app using Nodemailer.  from button trigger ", // Email body
-//     };
-
-//     // Send the email
-//     try {
-//       const info = await transporter.sendMail(mailOptions);
-//       console.log("Email sent: and i from button trigger : " + info.response);
-//       res.status(200).send("Email sent successfully");
-//     } catch (error) {
-//       console.error("Error sending email:", error);
-//       res.status(500).send("Error sending email");
-//     }
-//   });
-// });
+    // Send the email
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log("Email sent: " + info.response);
+      res.status(200).send("Email sent successfully");
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).send("Error sending email");
+    }
+  });
+});
 
 app.get("/sendEmail",(req,res)=>{
   var cnt=1;
