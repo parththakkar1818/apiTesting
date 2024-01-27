@@ -11,7 +11,12 @@ const nodemailer = require("nodemailer");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'https://asprv-stock-market-prediction-frontend.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 app.post("/",async (req,res)=>{
   const { to } = req.body;
