@@ -44,7 +44,7 @@ const sendEmail = async (to, subject, text) => {
 
 // Cron job to send emails every day at a specific time (e.g., 12:00 PM)
 cron.schedule("*/10 * * * * *", async () => {
-  console.log("Running a task every day at 12:00 PM");
+  console.log("Running a task every day at 12:00 PM and i from vercel");
 
   // Define your email content
   const to = "thakkarjinal123@gmail.com";
@@ -83,7 +83,7 @@ app.post("/",async (req,res)=>{
     // Send the email
     try {
       const info = await transporter.sendMail(mailOptions);
-      console.log("Email sent: " + info.response);
+      console.log("Email sent: and i from button trigger : " + info.response);
       res.status(200).send("Email sent successfully");
     } catch (error) {
       console.error("Error sending email:", error);
